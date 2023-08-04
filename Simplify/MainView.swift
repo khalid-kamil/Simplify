@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
       TabView {
-        Color(.blue)
+        TodayView()
           .tabItem {
             Label("Today", systemImage: "target")
           }

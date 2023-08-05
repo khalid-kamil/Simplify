@@ -9,45 +9,40 @@ import SwiftUI
 
 struct HabitView: View {
   let habitColor = Color(.systemYellow)
-  var name: String
-  @Binding var isCompleted: Bool
-  @Binding var isReminderOn: Bool
-  var target: Int
-  @Binding var currentStreak: Int
-  var nextMilestone: Int
+  @Binding var habit: Habit
 
   var body: some View {
     HStack(alignment: .top) {
       VStack(alignment: .leading, spacing: 4) {
-        Image(systemName: isReminderOn ? "bell.fill" : "bell.slash")
+        Image(systemName: habit.isReminderOn ? "bell.fill" : "bell.slash")
           .onTapGesture {
-            isReminderOn.toggle()
+            habit.isReminderOn.toggle()
             // TODO: Enable notifications
             // TODO: Trigger haptic feedback
           }
-          .rotationEffect(.degrees(isReminderOn ? -30 : 0), anchor: .top)
-          .animation(.interpolatingSpring(stiffness: 200, damping: 6), value: isReminderOn)
+          .rotationEffect(.degrees(habit.isReminderOn ? -30 : 0), anchor: .top)
+          .animation(.interpolatingSpring(stiffness: 200, damping: 6), value: habit.isReminderOn)
           .foregroundColor(habitColor)
-        Text(name)
+        Text(habit.name)
           .font(.title3)
           .fontWeight(.medium)
         Spacer()
         Button {
-          currentStreak += 1
-          isCompleted = true
+          habit.currentStreak += 1
+          habit.isCompleted = true
         } label: {
           HStack(spacing: 4) {
-            Image(systemName: isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
-            Text(isCompleted ? "Done!" : "Mark as done")
+            Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
+            Text(habit.isCompleted ? "Done!" : "Mark as done")
           }
           .fontWeight(.semibold)
         }
         .buttonStyle(.bordered)
         .tint(.yellow)
-        .disabled(isCompleted)
+        .disabled(habit.isCompleted)
       }
       Spacer()
-      CircularProgressView(currentStreak: currentStreak, nextMilestone: nextMilestone)
+      CircularProgressView(value: habit.currentStreak, target: habit.milestones[habit.currentMilestoneIndex])
         .padding()
     }
     .padding()
@@ -59,12 +54,7 @@ struct HabitView: View {
 
 struct HabitView_Previews: PreviewProvider {
   static var previews: some View {
-      HabitView(name: "Pray Fajr on time at masjid",
-                isCompleted: .constant(false),
-                isReminderOn: .constant(false),
-                target: 28,
-                currentStreak: .constant(0),
-                nextMilestone: 10)
+    HabitView(habit: .constant(Habit(name: "Sample Habit")))
       .previewDisplayName("Habit View Light")
       .previewLayout(.sizeThatFits)
       .padding()

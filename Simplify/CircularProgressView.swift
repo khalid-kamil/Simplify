@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct CircularProgressView: View {
-  var currentStreak: Int
-  let nextMilestone: Int
+  var value: Int
+  let target: Int
 
   var progress: Double {
-    switch currentStreak {
+    switch value {
     case 0:
       return 1/10_000
     default:
-      return Double(currentStreak) / Double(nextMilestone)
+      return Double(value) / Double(target)
     }
   }
 
@@ -28,15 +28,15 @@ struct CircularProgressView: View {
         .trim(from: 0, to: progress)
         .stroke(Color(.systemYellow), style: StrokeStyle(lineWidth: 24, lineCap: .round))
         .rotationEffect(.degrees(-90))
-        .animation(.easeOut, value: progress)
-      Text("\(currentStreak)/\(nextMilestone)")
+      Text(progress == 1 ? "🎉" : "\(value)/\(target)")
     }
+    .animation(.easeInOut, value: progress)
   }
 }
 
 struct CircularProgressView_Previews: PreviewProvider {
   static var previews: some View {
-    CircularProgressView(currentStreak: 0, nextMilestone: 10)
+    CircularProgressView(value: 1, target: 10)
       .previewDisplayName("Circular Progress View")
       .previewLayout(.sizeThatFits)
       .padding()

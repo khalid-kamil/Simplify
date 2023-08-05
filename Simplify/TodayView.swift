@@ -10,6 +10,7 @@ import SwiftUI
 struct TodayView: View {
   @State var currentStreak: Int = 0
   @State var isReminderOn = false
+  @State var isCompleted = false
 
   var body: some View {
     NavigationStack {
@@ -18,7 +19,12 @@ struct TodayView: View {
             Text("Habit")
               .font(.title2)
               .fontWeight(.semibold)
-            HabitView(name: "Pray Fajr on time at masjid", isCompleted: false, isReminderOn: $isReminderOn, target: 28, currentStreak: $currentStreak, nextMilestone: 10)
+            HabitView(name: "Pray Fajr on time at masjid",
+                      isCompleted: $isCompleted,
+                      isReminderOn: $isReminderOn,
+                      target: 28,
+                      currentStreak: $currentStreak,
+                      nextMilestone: 10)
 
           Section {
             ForEach(1..<4) {

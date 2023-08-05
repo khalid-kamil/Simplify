@@ -23,10 +23,10 @@ struct CircularProgressView: View {
   var body: some View {
     ZStack {
       Circle()
-        .stroke(Color.pink.opacity(0.2), lineWidth: 24)
+        .stroke(Color(.systemYellow).opacity(0.2), lineWidth: 24)
       Circle()
         .trim(from: 0, to: progress)
-        .stroke(Color.pink, style: StrokeStyle(lineWidth: 24, lineCap: .round))
+        .stroke(Color(.systemYellow), style: StrokeStyle(lineWidth: 24, lineCap: .round))
         .rotationEffect(.degrees(-90))
         .animation(.easeOut, value: progress)
       Text("\(currentStreak)/\(nextMilestone)")

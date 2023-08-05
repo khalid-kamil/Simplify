@@ -8,35 +8,37 @@
 import SwiftUI
 
 struct TodayView: View {
+  @State var currentStreak: Int = 0
+  @State var isReminderOn = false
+
   var body: some View {
     NavigationStack {
       ScrollView {
-        Section {
+        VStack(alignment: .leading) {
+            Text("Habit")
+              .font(.title2)
+              .fontWeight(.semibold)
+            HabitView(name: "Pray Fajr on time at masjid", isCompleted: false, isReminderOn: $isReminderOn, target: 28, currentStreak: $currentStreak, nextMilestone: 10)
 
-        } header: {
-          Text("Habit")
-            .font(.title2)
-            .fontWeight(.semibold)
-        }
-
-        Section {
-          ForEach(1..<4) {
-            Text("Task \($0)")
+          Section {
+            ForEach(1..<4) {
+              Text("Task \($0)")
+            }
+          } header: {
+            Text("Tasks")
+              .font(.title2)
+              .fontWeight(.semibold)
           }
-        } header: {
-          Text("Tasks")
-            .font(.title2)
-            .fontWeight(.semibold)
+
+          Section {
+
+          } header: {
+            Text("Journal")
+              .font(.title2)
+              .fontWeight(.semibold)
+          }
         }
-
-        Section {
-
-        } header: {
-          Text("Journal")
-            .font(.title2)
-            .fontWeight(.semibold)
-        }
-
+        .padding()
       }
       .navigationTitle("Today")
     }

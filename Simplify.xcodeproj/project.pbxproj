@@ -16,6 +16,7 @@
 		E95C1CBC2A7D894400612164 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CBB2A7D894400612164 /* MainView.swift */; };
 		E95C1CBE2A7D8E1C00612164 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CBD2A7D8E1C00612164 /* TodayView.swift */; };
 		E95C1CC02A7D9C3200612164 /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CBF2A7D9C3200612164 /* HabitView.swift */; };
+		E95C1CC22A7DAAC200612164 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		E95C1CBB2A7D894400612164 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E95C1CBD2A7D8E1C00612164 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		E95C1CBF2A7D9C3200612164 /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
+		E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				E95C1CBB2A7D894400612164 /* MainView.swift */,
 				E95C1CBD2A7D8E1C00612164 /* TodayView.swift */,
 				E95C1CBF2A7D9C3200612164 /* HabitView.swift */,
+				E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */,
 				E95C1CAC2A7D85DF00612164 /* Assets.xcassets */,
 				E95C1CB12A7D85DF00612164 /* Persistence.swift */,
 				E95C1CB32A7D85DF00612164 /* Simplify.xcdatamodeld */,
@@ -154,6 +157,7 @@
 			files = (
 				E95C1CB22A7D85DF00612164 /* Persistence.swift in Sources */,
 				E95C1CAB2A7D85DD00612164 /* ContentView.swift in Sources */,
+				E95C1CC22A7DAAC200612164 /* CircularProgressView.swift in Sources */,
 				E95C1CB52A7D85DF00612164 /* Simplify.xcdatamodeld in Sources */,
 				E95C1CBC2A7D894400612164 /* MainView.swift in Sources */,
 				E95C1CC02A7D9C3200612164 /* HabitView.swift in Sources */,

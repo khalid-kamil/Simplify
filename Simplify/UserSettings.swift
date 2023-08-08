@@ -45,12 +45,12 @@ extension UserDefaults {
     let color = UIColor(color).cgColor
 
     if let components = color.components {
-      UserDefaults.standard.set(components, forKey: key)
+      self.set(components, forKey: key)
     }
   }
 
   func loadColor(forKey key: String) -> Color? {
-    guard let array = UserDefaults.standard.object(forKey: key) as? [CGFloat] else { return nil }
+    guard let array = self.object(forKey: key) as? [CGFloat] else { return nil }
 
     let color = Color(.sRGB, red: array[0], green: array[1], blue: array[2])
 

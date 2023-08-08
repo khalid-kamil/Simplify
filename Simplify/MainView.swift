@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+  @StateObject var userSettings = UserSettings()
     var body: some View {
       TabView {
         TodayView()
@@ -18,12 +19,12 @@ struct MainView: View {
           .tabItem {
             Label("Summary", systemImage: "calendar")
           }
-        Color(.systemPink)
+        SettingsView()
           .tabItem {
             Label("Settings", systemImage: "gearshape.fill")
           }
       }
-
+      .environmentObject(userSettings)
     }
 }
 

@@ -37,6 +37,7 @@ struct Habit {
 }
 
 struct TodayView: View {
+  @EnvironmentObject var userSettings: UserSettings
   @State var today = Date()
   @State var habit = Habit(name: "Pray Fajr on time at masjid")
 
@@ -52,6 +53,7 @@ struct TodayView: View {
           Section {
             ForEach(1..<4) {
               Text("Task \($0)")
+                .foregroundColor(userSettings.task1Color)
             }
           } header: {
             Text("Tasks")
@@ -86,7 +88,9 @@ struct TodayView: View {
 }
 
 struct TodayView_Previews: PreviewProvider {
+  static let userSettings = UserSettings()
   static var previews: some View {
     TodayView()
+      .environmentObject(userSettings)
   }
 }

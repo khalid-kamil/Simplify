@@ -10,6 +10,7 @@ import SwiftUI
 struct CircularProgressView: View {
   var value: Int
   let target: Int
+  let color: Color
 
   var progress: Double {
     switch value {
@@ -23,10 +24,10 @@ struct CircularProgressView: View {
   var body: some View {
     ZStack {
       Circle()
-        .stroke(Color(.systemYellow).opacity(0.2), lineWidth: 24)
+        .stroke(color.opacity(0.2), lineWidth: 24)
       Circle()
         .trim(from: 0, to: progress)
-        .stroke(Color(.systemYellow), style: StrokeStyle(lineWidth: 24, lineCap: .round))
+        .stroke(color, style: StrokeStyle(lineWidth: 24, lineCap: .round))
         .rotationEffect(.degrees(-90))
       Text(progress == 1 ? "🎉" : "\(value)/\(target)")
     }
@@ -36,7 +37,7 @@ struct CircularProgressView: View {
 
 struct CircularProgressView_Previews: PreviewProvider {
   static var previews: some View {
-    CircularProgressView(value: 1, target: 10)
+    CircularProgressView(value: 1, target: 10, color: .yellow)
       .previewDisplayName("Circular Progress View")
       .previewLayout(.sizeThatFits)
       .padding()

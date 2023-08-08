@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HabitView: View {
-  let habitColor = Color(.systemYellow)
+  @EnvironmentObject var userSettings: UserSettings
   @Binding var habit: Habit
 
   var body: some View {
@@ -22,7 +22,7 @@ struct HabitView: View {
           }
           .rotationEffect(.degrees(habit.isReminderOn ? -30 : 0), anchor: .top)
           .animation(.interpolatingSpring(stiffness: 200, damping: 6), value: habit.isReminderOn)
-          .foregroundColor(habitColor)
+          .foregroundColor(userSettings.habitColor)
         Text(habit.name)
           .font(.title3)
           .fontWeight(.medium)
@@ -38,11 +38,11 @@ struct HabitView: View {
           .fontWeight(.semibold)
         }
         .buttonStyle(.bordered)
-        .tint(.yellow)
+        .tint(userSettings.habitColor)
         .disabled(habit.isCompleted)
       }
       Spacer()
-      CircularProgressView(value: habit.currentStreak, target: habit.milestones[habit.currentMilestoneIndex])
+      CircularProgressView(value: habit.currentStreak, target: habit.milestones[habit.currentMilestoneIndex], color: userSettings.habitColor)
         .padding()
     }
     .padding()
@@ -53,8 +53,10 @@ struct HabitView: View {
 }
 
 struct HabitView_Previews: PreviewProvider {
+  static let userSettings = UserSettings()
   static var previews: some View {
     HabitView(habit: .constant(Habit(name: "Sample Habit")))
+      .environmentObject(userSettings)
       .previewDisplayName("Habit View Light")
       .previewLayout(.sizeThatFits)
       .padding()

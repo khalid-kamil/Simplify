@@ -30,7 +30,7 @@ struct TodayView_Previews: PreviewProvider {
 
 extension TodayView {
     var habitSection: some View {
-        VStack {
+        VStack(spacing: 8) {
             habitSectionHeader
             habitSectionBody
         }

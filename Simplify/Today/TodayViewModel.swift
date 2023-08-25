@@ -12,6 +12,11 @@ class TodayViewModel: ObservableObject {
         self.habit = tracker.habit
     }
 
+    var targetAchieved: Bool {
+        guard let habit = tracker.habit else { return false }
+        return habit.targetAchieved
+    }
+
     var habitCreated: Bool {
         guard let _ = tracker.habit else { return false }
         return true

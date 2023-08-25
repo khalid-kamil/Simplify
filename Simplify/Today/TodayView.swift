@@ -54,7 +54,12 @@ extension TodayView {
 
     var habitSectionBody: some View {
         ZStack {
-            if vm.habitCreated {
+            if vm.targetAchieved {
+                VStack {
+                    Text("Congratulations")
+                    createHabit
+                }
+            } else if vm.habitCreated {
                 HabitView(vm: vm)
             } else {
                 createHabit

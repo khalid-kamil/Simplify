@@ -19,8 +19,8 @@ struct TodayView: View {
             .font(.title2)
             .fontWeight(.semibold)
             ZStack {
-                if let habit = vm.habit {
-                    HabitView(habit: habit)
+                if let _ = vm.habit {
+                    HabitView(vm: vm)
                 } else {
                     VStack {
                         Image(systemName: "plus.circle")
@@ -72,7 +72,7 @@ struct TodayView: View {
           Button {
             // Change day
               vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
-              vm.habit?.newDay()
+              vm.tracker.habit?.newDay()
           } label: {
               Text(vm.today.formatted(date: .abbreviated, time: .omitted))
           }

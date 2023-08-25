@@ -36,10 +36,10 @@ struct TodayView: View {
                         vm.addHabit(name: "Complete 30 mins of touch typing")
                     }
                 }
-
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: 180)
+            .frame(maxWidth: .infinity)
+            .frame(height: 180)
             .background(.thinMaterial)
             .cornerRadius(12)
 

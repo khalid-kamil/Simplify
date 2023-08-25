@@ -50,6 +50,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E90ED65A2A98B10000B69E53 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				E95C1CBD2A7D8E1C00612164 /* TodayView.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		E90ED65B2A98B10700B69E53 /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Summary;
+			sourceTree = "<group>";
+		};
+		E90ED65C2A98B11200B69E53 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E90C86B72A7F0846004A5B4C /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		E95C1C9C2A7D85DD00612164 = {
 			isa = PBXGroup;
 			children = (
@@ -72,11 +95,12 @@
 				E95C1CA82A7D85DD00612164 /* SimplifyApp.swift */,
 				E95C1CAA2A7D85DD00612164 /* ContentView.swift */,
 				E95C1CBB2A7D894400612164 /* MainView.swift */,
-				E95C1CBD2A7D8E1C00612164 /* TodayView.swift */,
+				E90ED65A2A98B10000B69E53 /* Today */,
+				E90ED65B2A98B10700B69E53 /* Summary */,
+				E90ED65C2A98B11200B69E53 /* Settings */,
 				E90ED6582A98B09600B69E53 /* Habit.swift */,
 				E95C1CBF2A7D9C3200612164 /* HabitView.swift */,
 				E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */,
-				E90C86B72A7F0846004A5B4C /* SettingsView.swift */,
 				E97816342A823BE000E35A54 /* UserSettings.swift */,
 				E95C1CAC2A7D85DF00612164 /* Assets.xcassets */,
 				E95C1CB12A7D85DF00612164 /* Persistence.swift */,

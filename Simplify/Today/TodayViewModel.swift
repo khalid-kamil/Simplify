@@ -6,7 +6,7 @@ class TodayViewModel: ObservableObject {
     @Published var today: Date
     @Published var habit: Habit?
 
-    init(tracker: Tracker = Tracker()) {
+    init(tracker: Tracker = Tracker.shared) {
         self.tracker = tracker
         self.today = tracker.today
         self.habit = tracker.habit
@@ -58,6 +58,12 @@ class TodayViewModel: ObservableObject {
         trackerHabit.currentStreak += 1
         trackerHabit.isCompleted = true
         habit = trackerHabit
+    }
+
+    func nextDay() {
+        tracker.today = Calendar.current.date(byAdding: .day, value: 1, to: tracker.today)!
+        today = tracker.today
+        tracker.newDay()
     }
 
 }

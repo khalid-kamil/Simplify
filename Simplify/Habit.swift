@@ -3,7 +3,7 @@ import Foundation
 
 class Habit {
   let target: Int = 28
-  let milestones: [Int] = [1, 2, 3, 5, 7, 10, 14, 21]
+  let milestones: [Int] = [1, 2, 3, 5, 7, 10, 14, 21, 28]
   let creationDate: Date = Date()
   var currentStreak: Int
   var isCompleted: Bool
@@ -17,18 +17,6 @@ class Habit {
     return currentStreak == target
   }
 
-  func newDay() {
-    if !isCompleted {
-      currentStreak = 0
-      currentMilestoneIndex = 0
-    } else {
-      if currentStreak == milestones[currentMilestoneIndex] && currentMilestoneIndex + 1 < milestones.count {
-        currentMilestoneIndex += 1
-      }
-    }
-    isCompleted = false
-  }
-
     init(currentStreak: Int = 0, isCompleted: Bool = false, isReminderOn: Bool = false, name: String, currentMilestoneIndex: Int = 0) {
         self.currentStreak = currentStreak
         self.isCompleted = isCompleted
@@ -39,8 +27,15 @@ class Habit {
 }
 
 class Tracker {
-    var today = Date()
-    var habit: Habit? = nil
+    static let shared = Tracker()
+
+    private init(today: Date = Date(), habit: Habit? = nil) {
+        self.today = today
+        self.habit = habit
+    }
+
+    var today: Date
+    var habit: Habit?
 
     func createHabit(name: String) {
         habit = Habit(name: name)
@@ -50,4 +45,19 @@ class Tracker {
     func deleteHabit(name: String) {
         habit = nil
     }
+
+    func newDay() {
+        guard let habit = habit else { return }
+        if !habit.isCompleted {
+            habit.currentStreak = 0
+            habit.currentMilestoneIndex = 0
+      } else {
+          if habit.currentStreak == habit.milestones[habit.currentMilestoneIndex] && habit.currentMilestoneIndex + 1 < habit.milestones.count {
+              habit.currentMilestoneIndex += 1
+        }
+      }
+        habit.isCompleted = false
+    }
+
+
 }

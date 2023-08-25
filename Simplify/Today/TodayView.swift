@@ -44,9 +44,7 @@ extension TodayView {
                 .fontWeight(.semibold)
             Spacer()
             Button {
-                // Change day
-                vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
-                vm.tracker.habit?.newDay()
+                vm.nextDay()
             } label: {
                 Text(vm.today.formatted(date: .abbreviated, time: .omitted))
                     .foregroundColor(userSettings.habitColor)

@@ -22,10 +22,12 @@ struct TodayView: View {
           HabitView(habit: $habit)
 
           Section {
-            ForEach(1..<4) {
-              Text("Task \($0)")
+              Text("Task 1")
                 .foregroundColor(userSettings.task1Color)
-            }
+              Text("Task 2")
+                .foregroundColor(userSettings.task2Color)
+              Text("Task 3")
+                .foregroundColor(userSettings.task3Color)
           } header: {
             Text("Tasks")
               .font(.title2)

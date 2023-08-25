@@ -9,8 +9,7 @@ import SwiftUI
 
 struct TodayView: View {
   @EnvironmentObject var userSettings: UserSettings
-  @State var today = Date()
-  @State var habit = Habit(name: "Pray Fajr on time at masjid")
+  @StateObject var vm = TodayViewModel()
 
   var body: some View {
     NavigationStack {
@@ -19,7 +18,30 @@ struct TodayView: View {
           Text("Habit")
             .font(.title2)
             .fontWeight(.semibold)
-          HabitView(habit: $habit)
+            ZStack {
+                if let habit = vm.habit {
+                    HabitView(habit: habit)
+                } else {
+                    VStack {
+                        Image(systemName: "plus.circle")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 2)
+                        Text("Add habit".uppercased())
+                            .font(.caption)
+                            .fontWeight(.medium)
+                    }
+                    .foregroundColor(userSettings.habitColor)
+                    .onTapGesture {
+                        vm.addHabit(name: "Complete 30 mins of touch typing")
+                    }
+                }
+
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: 180)
+            .background(.thinMaterial)
+            .cornerRadius(12)
 
           Section {
               Text("Task 1")
@@ -49,10 +71,10 @@ struct TodayView: View {
         ToolbarItem {
           Button {
             // Change day
-            today = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-            habit.newDay()
+              vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
+              vm.habit?.newDay()
           } label: {
-            Text(today.formatted(date: .abbreviated, time: .omitted))
+              Text(vm.today.formatted(date: .abbreviated, time: .omitted))
           }
         }
       }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E90C86B82A7F0846004A5B4C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90C86B72A7F0846004A5B4C /* SettingsView.swift */; };
 		E90ED6592A98B09600B69E53 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90ED6582A98B09600B69E53 /* Habit.swift */; };
+		E90ED65E2A98BE0500B69E53 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90ED65D2A98BE0500B69E53 /* TodayViewModel.swift */; };
 		E95C1CA92A7D85DD00612164 /* SimplifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CA82A7D85DD00612164 /* SimplifyApp.swift */; };
 		E95C1CAB2A7D85DD00612164 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CAA2A7D85DD00612164 /* ContentView.swift */; };
 		E95C1CAD2A7D85DF00612164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E95C1CAC2A7D85DF00612164 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		E90C86B72A7F0846004A5B4C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E90ED6582A98B09600B69E53 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		E90ED65D2A98BE0500B69E53 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		E95C1CA52A7D85DD00612164 /* Simplify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simplify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E95C1CA82A7D85DD00612164 /* SimplifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplifyApp.swift; sourceTree = "<group>"; };
 		E95C1CAA2A7D85DD00612164 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				E95C1CBD2A7D8E1C00612164 /* TodayView.swift */,
+				E90ED65D2A98BE0500B69E53 /* TodayViewModel.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				E90C86B82A7F0846004A5B4C /* SettingsView.swift in Sources */,
 				E95C1CB52A7D85DF00612164 /* Simplify.xcdatamodeld in Sources */,
 				E95C1CBC2A7D894400612164 /* MainView.swift in Sources */,
+				E90ED65E2A98BE0500B69E53 /* TodayViewModel.swift in Sources */,
 				E95C1CC02A7D9C3200612164 /* HabitView.swift in Sources */,
 				E95C1CBE2A7D8E1C00612164 /* TodayView.swift in Sources */,
 				E95C1CA92A7D85DD00612164 /* SimplifyApp.swift in Sources */,

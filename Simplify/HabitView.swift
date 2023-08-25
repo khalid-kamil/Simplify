@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HabitView: View {
   @EnvironmentObject var userSettings: UserSettings
-  @Binding var habit: Habit
+    @ObservedObject var vm: TodayViewModel
+  var habit: Habit
 
   var body: some View {
     HStack(alignment: .top) {
@@ -45,20 +46,17 @@ struct HabitView: View {
       CircularProgressView(value: habit.currentStreak, target: habit.milestones[habit.currentMilestoneIndex], color: userSettings.habitColor)
         .padding()
     }
-    .padding()
-    .frame(maxWidth: .infinity, maxHeight: 180)
-    .background(.thinMaterial)
-    .cornerRadius(12)
   }
 }
 
 struct HabitView_Previews: PreviewProvider {
   static let userSettings = UserSettings()
   static var previews: some View {
-    HabitView(habit: .constant(Habit(name: "Sample Habit")))
+    HabitView(habit: Habit(name: "Sample Habit"))
       .environmentObject(userSettings)
       .previewDisplayName("Habit View Light")
       .previewLayout(.sizeThatFits)
       .padding()
+      .frame(maxWidth: .infinity, maxHeight: 180)
   }
 }

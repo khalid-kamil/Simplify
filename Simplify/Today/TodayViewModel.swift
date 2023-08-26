@@ -13,17 +13,17 @@ class TodayViewModel: ObservableObject {
     }
 
     var targetAchieved: Bool {
-        guard let habit = tracker.habit else { return false }
-        return habit.targetAchieved
+        guard let _ = tracker.habit else { return false }
+        return tracker.targetAchieved
     }
 
     var habitCreated: Bool {
-        guard let _ = tracker.habit else { return false }
+        guard let habit = tracker.habit else { return false }
         return true
     }
 
     var isReminderOn: Bool {
-        guard let trackerHabit = tracker.habit else { return false }
+        guard var trackerHabit = tracker.habit else { return false }
         return trackerHabit.isReminderOn
     }
 
@@ -38,37 +38,43 @@ class TodayViewModel: ObservableObject {
     }
 
     var currentStreak: Int {
-        guard let trackerHabit = tracker.habit else { return 0 }
-        return trackerHabit.currentStreak
+        guard let _ = tracker.habit else { return 0 }
+        return tracker.currentStreak
     }
 
     var nextMilestone: Int {
-        guard let trackerHabit = tracker.habit else { return 0 }
-        return trackerHabit.milestones[trackerHabit.currentMilestoneIndex]
+        return tracker.milestones[tracker.currentMilestoneIndex]
     }
 
     func addHabit(name: String) {
+        print("Creating Habit...")
+        tracker.currentStreak = 0
+        tracker.currentMilestoneIndex = 0
         tracker.createHabit(name: name)
         habit = tracker.habit
+        print("Habit \(String(describing: habit?.name)) created")
     }
 
     func toggleReminder() {
-        guard let trackerHabit = tracker.habit else { return }
+        guard var trackerHabit = tracker.habit else { return }
         trackerHabit.isReminderOn.toggle()
         habit = trackerHabit
     }
 
     func markHabitAsCompleted() {
-        guard let trackerHabit = tracker.habit else { return }
-        trackerHabit.currentStreak += 1
-        trackerHabit.isCompleted = true
-        habit = trackerHabit
+        guard let _ = tracker.habit else { return }
+        tracker.currentStreak += 1
+        tracker.habit?.currentStreak += 1
+        tracker.habit?.isCompleted = true
+        habit = tracker.habit
     }
 
     func nextDay() {
+        guard let _ = tracker.habit else { return }
+        tracker.newDay()
+        habit = tracker.habit
         tracker.today = Calendar.current.date(byAdding: .day, value: 1, to: tracker.today)!
         today = tracker.today
-        tracker.newDay()
     }
 
 }

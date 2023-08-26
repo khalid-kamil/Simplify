@@ -15,7 +15,7 @@ struct MainView: View {
           .tabItem {
             Label("Today", systemImage: "target")
           }
-        Color(.green)
+        SummaryView()
           .tabItem {
             Label("Summary", systemImage: "calendar")
           }

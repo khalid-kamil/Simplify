@@ -1,63 +1,66 @@
 
 import Foundation
 
-class Habit {
-  let target: Int = 28
-  let milestones: [Int] = [1, 2, 3, 5, 7, 10, 14, 21, 28]
-  let creationDate: Date = Date()
-  var currentStreak: Int
-  var isCompleted: Bool
-  var isReminderOn: Bool
-
-  var name: String
-
-  var currentMilestoneIndex: Int
-
-  var targetAchieved: Bool {
-    return currentStreak == target
-  }
-
-    init(currentStreak: Int = 0, isCompleted: Bool = false, isReminderOn: Bool = false, name: String, currentMilestoneIndex: Int = 0) {
-        self.currentStreak = currentStreak
-        self.isCompleted = isCompleted
-        self.isReminderOn = isReminderOn
-        self.name = name
-        self.currentMilestoneIndex = currentMilestoneIndex
-    }
+struct Habit {
+    var name: String
+    var currentStreak: Int
+    var currentMilestoneIndex: Int
+    var isCompleted: Bool = false
+    lazy var isReminderOn: Bool = false
 }
 
-class Tracker {
+class Tracker: ObservableObject {
     static let shared = Tracker()
 
-    private init(today: Date = Date(), habit: Habit? = nil) {
+    private init(today: Date = Date(), habit: Habit? = nil, currentMilestoneIndex: Int = 0, currentStreak: Int = 0) {
         self.today = today
         self.habit = habit
+        self.currentMilestoneIndex = currentMilestoneIndex
+        self.currentStreak = currentStreak
     }
 
     var today: Date
     var habit: Habit?
+    let target: Int = 28
+    let milestones: [Int] = [1, 2, 3, 5, 7, 10, 14, 21, 28]
+    var currentMilestoneIndex: Int
+    var currentStreak: Int
 
-    func createHabit(name: String) {
-        habit = Habit(name: name)
-        print(String(describing: habit))
+    var targetAchieved: Bool {
+        return habit?.currentStreak == target
     }
 
-    func deleteHabit(name: String) {
+    @Published var database = [Entry]()
+
+    func createHabit(name: String, isCompleted: Bool = false) {
+        habit = Habit(name: name, currentStreak: currentStreak, currentMilestoneIndex: currentMilestoneIndex, isCompleted: isCompleted)
+    }
+
+    func deleteHabit() {
         habit = nil
     }
 
     func newDay() {
         guard let habit = habit else { return }
+
         if !habit.isCompleted {
-            habit.currentStreak = 0
-            habit.currentMilestoneIndex = 0
-      } else {
-          if habit.currentStreak == habit.milestones[habit.currentMilestoneIndex] && habit.currentMilestoneIndex + 1 < habit.milestones.count {
-              habit.currentMilestoneIndex += 1
+            currentStreak = 0
+            currentMilestoneIndex = 0
+        } else {
+            if currentStreak == milestones[currentMilestoneIndex] && currentMilestoneIndex + 1 < milestones.count {
+                currentMilestoneIndex += 1
+            }
         }
-      }
-        habit.isCompleted = false
+
+        createHabit(name: habit.name, isCompleted: habit.isCompleted)
+        database.append(Entry(date: today, habit: self.habit!))
+        print(Entry(date: today, habit: habit).habit.currentStreak)
+        createHabit(name: habit.name)
     }
+}
 
 
+struct Entry {
+    let date: Date
+    let habit: Habit
 }

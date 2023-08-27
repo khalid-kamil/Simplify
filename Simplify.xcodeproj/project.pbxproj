@@ -21,6 +21,7 @@
 		E95C1CBE2A7D8E1C00612164 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CBD2A7D8E1C00612164 /* TodayView.swift */; };
 		E95C1CC02A7D9C3200612164 /* HabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CBF2A7D9C3200612164 /* HabitView.swift */; };
 		E95C1CC22A7DAAC200612164 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */; };
+		E973EFC52A9B86EE00FD3C39 /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E973EFC32A9B817300FD3C39 /* NewHabitView.swift */; };
 		E97816352A823BE000E35A54 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97816342A823BE000E35A54 /* UserSettings.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		E95C1CBD2A7D8E1C00612164 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		E95C1CBF2A7D9C3200612164 /* HabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitView.swift; sourceTree = "<group>"; };
 		E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		E973EFC32A9B817300FD3C39 /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		E97816342A823BE000E35A54 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +60,6 @@
 			isa = PBXGroup;
 			children = (
 				E95C1CBD2A7D8E1C00612164 /* TodayView.swift */,
-				E90ED65F2A99318300B69E53 /* SummaryView.swift */,
 				E90ED65D2A98BE0500B69E53 /* TodayViewModel.swift */,
 			);
 			path = Today;
@@ -67,6 +68,7 @@
 		E90ED65B2A98B10700B69E53 /* Summary */ = {
 			isa = PBXGroup;
 			children = (
+				E90ED65F2A99318300B69E53 /* SummaryView.swift */,
 			);
 			path = Summary;
 			sourceTree = "<group>";
@@ -106,6 +108,7 @@
 				E90ED65C2A98B11200B69E53 /* Settings */,
 				E90ED6582A98B09600B69E53 /* Habit.swift */,
 				E95C1CBF2A7D9C3200612164 /* HabitView.swift */,
+				E973EFC32A9B817300FD3C39 /* NewHabitView.swift */,
 				E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */,
 				E97816342A823BE000E35A54 /* UserSettings.swift */,
 				E95C1CAC2A7D85DF00612164 /* Assets.xcassets */,
@@ -196,6 +199,7 @@
 			files = (
 				E90ED6602A99318300B69E53 /* SummaryView.swift in Sources */,
 				E95C1CB22A7D85DF00612164 /* Persistence.swift in Sources */,
+				E973EFC52A9B86EE00FD3C39 /* NewHabitView.swift in Sources */,
 				E90ED6592A98B09600B69E53 /* Habit.swift in Sources */,
 				E95C1CAB2A7D85DD00612164 /* ContentView.swift in Sources */,
 				E95C1CC22A7DAAC200612164 /* CircularProgressView.swift in Sources */,

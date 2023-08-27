@@ -4,6 +4,7 @@ import SwiftUI
 struct TodayView: View {
     @EnvironmentObject var userSettings: UserSettings
     @StateObject var vm = TodayViewModel()
+    @State var showNewHabitView = false
 
     var body: some View {
         NavigationStack {
@@ -16,6 +17,9 @@ struct TodayView: View {
                 .padding()
             }
             .navigationTitle("Today")
+        }
+        .sheet(isPresented: $showNewHabitView) {
+            NewHabitView(vm: vm)
         }
     }
 }
@@ -113,7 +117,7 @@ extension TodayView {
         .foregroundColor(userSettings.habitColor)
         .onTapGesture {
             // TODO: Display add new habit sheet
-            vm.addHabit(name: "Complete 30 mins of touch typing")
+            showNewHabitView = true
         }
     }
 }

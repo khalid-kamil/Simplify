@@ -3,22 +3,45 @@ import SwiftUI
 
 struct SummaryView: View {
     @StateObject var tracker = Tracker.shared
-    
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(tracker.database.reversed(), id: \.date) { entry in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(entry.date.formatted(date: .abbreviated, time: .omitted))
-                            Text(entry.habit.name)
-                            Text("\(entry.habit.currentStreak)")
+            ScrollView {
+                ForEach(1..<13) { month in
+                    VStack(alignment: .leading) {
+                        Text("Month \(month)")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        LazyVGrid(columns: columns) {
+                            ForEach((1..<31)) { day in
+                                NavigationLink {
+                                    Text("Log Entry")
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .foregroundColor(.gray)
+                                            .frame(width: 32, height: 32)
+                                        Text(String(describing: day))
+                                            .font(.headline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.primary)
+                                    }
+
+                                }
+                            }
                         }
-                        Spacer()
-                        Image(systemName: entry.habit.isCompleted ? "checkmark.circle" : "xmark.circle")
-                            .foregroundColor(entry.habit.isCompleted ? .green : .red)
                     }
+                    .padding(.top)
                 }
+                .padding([.horizontal, .bottom])
             }
             .navigationTitle("Summary")
         }

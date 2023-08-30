@@ -3,20 +3,24 @@ import SwiftUI
 
 struct SummaryView: View {
     @StateObject var tracker = Tracker.shared
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \LogItem.date, ascending: false)],
+        animation: .default)
+    private var logItems: FetchedResults<LogItem>
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(tracker.database.reversed(), id: \.date) { entry in
+                ForEach(logItems) { entry in
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(entry.date.formatted(date: .abbreviated, time: .omitted))
-                            Text(entry.habit.name)
-                            Text("\(entry.habit.currentStreak)")
+                            Text(entry.date?.formatted() ?? "Unknown")
+                            Text(entry.toHabit?.wrappedName ?? "hi")
+                            Text("\(entry.toHabit?.currentStreak ?? 99)")
                         }
                         Spacer()
-                        Image(systemName: entry.habit.isCompleted ? "checkmark.circle" : "xmark.circle")
-                            .foregroundColor(entry.habit.isCompleted ? .green : .red)
                     }
                 }
             }
@@ -28,5 +32,6 @@ struct SummaryView: View {
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
         SummaryView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -2,24 +2,28 @@
 import SwiftUI
 
 struct TodayView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var userSettings: UserSettings
     @StateObject var vm = TodayViewModel()
-    @State var showNewHabitView = false
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
+                    welcomeBack
                     habitSection
                     tasksSection
-                    journalSection
                 }
                 .padding()
             }
-            .navigationTitle("Today")
+            .navigationTitle("1 Habit, 3 Tasks")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(isPresented: $showNewHabitView) {
-            NewHabitView(vm: vm)
+        .sheet(isPresented: $vm.openEditHabit) {
+            vm.resetHabitData()
+        } content: {
+            AddHabitView()
+                .environmentObject(vm)
         }
     }
 }
@@ -33,6 +37,17 @@ struct TodayView_Previews: PreviewProvider {
 }
 
 extension TodayView {
+    var welcomeBack: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Welcome back")
+                .font(.callout)
+                .fontWeight(.semibold)
+            Text("Here are today's updates")
+                .font(.title2.bold())
+        }
+        .padding(.vertical)
+    }
+
     var habitSection: some View {
         VStack(spacing: 8) {
             habitSectionHeader
@@ -44,14 +59,16 @@ extension TodayView {
     var habitSectionHeader: some View {
         HStack(alignment: .bottom) {
             Text("Habit")
-                .font(.title2)
+                .font(.title3)
                 .fontWeight(.semibold)
             Spacer()
             Button {
-                vm.nextDay()
+
             } label: {
                 Text(vm.today.formatted(date: .abbreviated, time: .omitted))
-                    .foregroundColor(userSettings.habitColor)
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color(vm.habitColor))
             }
         }
     }
@@ -87,21 +104,11 @@ extension TodayView {
                     .foregroundColor(userSettings.task3Color)
             } header: {
                 Text("Tasks")
-                    .font(.title2)
+                    .font(.title3)
                     .fontWeight(.semibold)
             }
         }
         .padding(.bottom)
-    }
-
-    var journalSection: some View {
-        Section {
-
-        } header: {
-            Text("Journal")
-                .font(.title2)
-                .fontWeight(.semibold)
-        }
     }
 
     var createHabit: some View {
@@ -114,10 +121,9 @@ extension TodayView {
                 .font(.caption)
                 .fontWeight(.semibold)
         }
-        .foregroundColor(userSettings.habitColor)
+        .foregroundColor(Color(vm.habitColor))
         .onTapGesture {
-            // TODO: Display add new habit sheet
-            showNewHabitView = true
+            vm.openEditHabit.toggle()
         }
     }
 }

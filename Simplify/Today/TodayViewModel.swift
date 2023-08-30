@@ -1,10 +1,38 @@
 
 import Foundation
+import CoreData
 
 class TodayViewModel: ObservableObject {
     @Published var tracker: Tracker
     @Published var today: Date
     @Published var habit: Habit?
+
+    // MARK: New Habit Properties
+    @Published var openEditHabit: Bool = false
+    @Published var habitCreationDate: Date = Date()
+    @Published var habitTitle: String = ""
+    @Published var habitColor: String  = "Blue"
+    @Published var habitAllowsNotifications: Bool = false
+
+    // MARK: Adding Habit to CoreData
+    func addTask(context: NSManagedObjectContext) -> Bool {
+        let habit = Habit(context: context)
+        habit.name = habitTitle
+        habit.color = habitColor
+        habit.allowsNotifications = habitAllowsNotifications
+
+        if let _ = try? context.save() {
+            return true
+        }
+        return false
+    }
+
+    // MARK: Resetting View Model Habit Data
+    func resetHabitData() {
+        habitTitle = ""
+        habitColor = "Blue"
+        habitAllowsNotifications = false
+    }
 
     init(tracker: Tracker = Tracker.shared) {
         self.tracker = tracker
@@ -18,18 +46,18 @@ class TodayViewModel: ObservableObject {
     }
 
     var habitCreated: Bool {
-        guard let habit = tracker.habit else { return false }
+        guard tracker.habit != nil else { return false }
         return true
     }
 
     var isReminderOn: Bool {
-        guard var trackerHabit = tracker.habit else { return false }
-        return trackerHabit.isReminderOn
+        guard let trackerHabit = tracker.habit else { return false }
+        return trackerHabit.allowsNotifications
     }
 
     var habitName: String {
         guard let trackerHabit = tracker.habit else { return "" }
-        return trackerHabit.name
+        return trackerHabit.name!
     }
 
     var habitIsCompleted: Bool {
@@ -56,8 +84,8 @@ class TodayViewModel: ObservableObject {
     }
 
     func toggleReminder() {
-        guard var trackerHabit = tracker.habit else { return }
-        trackerHabit.isReminderOn.toggle()
+        guard let trackerHabit = tracker.habit else { return }
+        trackerHabit.allowsNotifications.toggle()
         habit = trackerHabit
     }
 
@@ -72,9 +100,9 @@ class TodayViewModel: ObservableObject {
     func nextDay() {
         guard let _ = tracker.habit else { return }
         tracker.newDay()
-        habit = tracker.habit
+//        habit = tracker.habit
         tracker.today = Calendar.current.date(byAdding: .day, value: 1, to: tracker.today)!
-        today = tracker.today
+//        today = tracker.today
     }
 
 }

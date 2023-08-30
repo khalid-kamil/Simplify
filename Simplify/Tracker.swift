@@ -19,13 +19,13 @@ class Tracker: ObservableObject {
     var currentStreak: Int
 
     var targetAchieved: Bool {
-        return habit?.currentStreak == target
+        return habit?.currentStreak ?? 0 == target
     }
 
     @Published var database = [Entry]()
 
     func createHabit(name: String, isCompleted: Bool = false) {
-        habit = Habit(name: name, currentStreak: currentStreak, currentMilestoneIndex: currentMilestoneIndex, isCompleted: isCompleted)
+        
     }
 
     func deleteHabit() {
@@ -44,10 +44,10 @@ class Tracker: ObservableObject {
             }
         }
 
-        createHabit(name: habit.name, isCompleted: habit.isCompleted)
+        createHabit(name: habit.name!, isCompleted: habit.isCompleted)
         database.append(Entry(date: today, habit: self.habit!))
         print(Entry(date: today, habit: habit).habit.currentStreak)
-        createHabit(name: habit.name)
+        createHabit(name: habit.name!)
     }
 }
 

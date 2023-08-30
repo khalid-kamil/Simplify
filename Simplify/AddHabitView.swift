@@ -79,6 +79,7 @@ extension AddHabitView {
     var saveButton: some View {
         // MARK: Save Habit Button
         Button("Save") {
+            vm.habitCreationDate = Date()
             // MARK: If successfully saved to CoreData, dismiss view
             if vm.addTask(context: viewContext) {
                 dismiss()

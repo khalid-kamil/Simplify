@@ -1,10 +1,23 @@
 
 import SwiftUI
+import CoreData
 
 struct TodayView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var userSettings: UserSettings
     @StateObject var vm = TodayViewModel()
+
+    // MARK: Fetching Habit
+    @FetchRequest var habits: FetchedResults<Habit>
+    init() {
+        let request: NSFetchRequest<Habit> = Habit.fetchRequest()
+        request.predicate = nil
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Habit.creationDate, ascending: false)
+        ]
+        request.fetchLimit = 1
+        _habits = FetchRequest(fetchRequest: request)
+    }
 
     var body: some View {
         NavigationStack {

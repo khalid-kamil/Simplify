@@ -17,6 +17,7 @@ class TodayViewModel: ObservableObject {
     // MARK: Adding Habit to CoreData
     func addTask(context: NSManagedObjectContext) -> Bool {
         let habit = Habit(context: context)
+        habit.creationDate = habitCreationDate
         habit.name = habitTitle
         habit.color = habitColor
         habit.allowsNotifications = habitAllowsNotifications

@@ -22,6 +22,7 @@ extension Habit {
     @NSManaged public var isCompleted: Bool
     @NSManaged public var allowsNotifications: Bool
     @NSManaged public var color: String
+    @NSManaged public var creationDate: Date
     @NSManaged public var fromLogItem: NSSet?
 
 }

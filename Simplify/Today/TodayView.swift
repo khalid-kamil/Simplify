@@ -87,14 +87,10 @@ extension TodayView {
     }
 
     var habitSectionBody: some View {
+        // MARK: Habit View
         ZStack {
-            if vm.targetAchieved {
-                VStack {
-                    Text("Congratulations")
-                    createHabit
-                }
-            } else if vm.habitCreated {
-                HabitView(vm: vm)
+            if vm.habitFound(in: habits) {
+                HabitView(habit: habits.first!)
             } else {
                 createHabit
             }

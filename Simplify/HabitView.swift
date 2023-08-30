@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct HabitView: View {
-    @EnvironmentObject var userSettings: UserSettings
-    @ObservedObject var vm: TodayViewModel
+    let habit: Habit
 
     var body: some View {
         HStack(alignment: .top) {
@@ -26,10 +25,8 @@ struct HabitView: View {
 }
 
 struct HabitView_Previews: PreviewProvider {
-    static let userSettings = UserSettings()
     static var previews: some View {
-        HabitView(vm: TodayViewModel())
-            .environmentObject(userSettings)
+        HabitView(habit: Habit())
             .previewDisplayName("Habit View Light")
             .previewLayout(.sizeThatFits)
             .padding()
@@ -39,40 +36,41 @@ struct HabitView_Previews: PreviewProvider {
 
 extension HabitView {
     var notificationBell: some View {
-        Image(systemName: vm.isReminderOn ? "bell.fill" : "bell.slash")
+        Image(systemName: habit.allowsNotifications ? "bell.fill" : "bell.slash")
             .onTapGesture {
-                vm.toggleReminder()
+                habit.allowsNotifications.toggle()
                 // TODO: Enable notifications
                 // TODO: Trigger haptic feedback
             }
-            .rotationEffect(.degrees(vm.isReminderOn ? -30 : 0), anchor: .top)
-            .animation(.interpolatingSpring(stiffness: 200, damping: 6), value: vm.isReminderOn)
-            .foregroundColor(userSettings.habitColor)
+            .rotationEffect(.degrees(habit.allowsNotifications ? -30 : 0), anchor: .top)
+            .animation(.interpolatingSpring(stiffness: 200, damping: 6), value: habit.allowsNotifications)
+            .foregroundColor(Color(habit.color))
     }
 
     var habitName: some View {
-        Text(vm.habitName)
+        Text(habit.name ?? "N/A")
             .font(.title3)
             .fontWeight(.medium)
     }
 
     var markHabitAsCompletedButton: some View {
         Button {
-            vm.markHabitAsCompleted()
+            // MARK: Mark Habit as completed
+            
         } label: {
             HStack(spacing: 4) {
-                Image(systemName: vm.habitIsCompleted ? "checkmark.circle.fill" : "checkmark.circle")
-                Text(vm.habitIsCompleted ? "Done!" : "Mark as done")
+                Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
+                Text(habit.isCompleted ? "Done!" : "Mark as done")
             }
             .fontWeight(.semibold)
         }
         .buttonStyle(.bordered)
-        .tint(userSettings.habitColor)
-        .disabled(vm.habitIsCompleted)
+        .tint(Color(habit.color))
+        .disabled(habit.isCompleted)
     }
 
     var circularProgressView: some View {
-        CircularProgressView(value: vm.currentStreak, target: vm.nextMilestone, color: userSettings.habitColor)
+        CircularProgressView(value: Int(habit.currentStreak), target: Tracker.shared.milestones[Int(habit.currentMilestoneIndex)], color: Color(habit.color))
             .padding()
     }
 }

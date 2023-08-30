@@ -1,6 +1,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 class TodayViewModel: ObservableObject {
     @Published var tracker: Tracker
@@ -15,7 +16,7 @@ class TodayViewModel: ObservableObject {
     @Published var habitAllowsNotifications: Bool = false
 
     // MARK: Adding Habit to CoreData
-    func addTask(context: NSManagedObjectContext) -> Bool {
+    func addHabit(context: NSManagedObjectContext) -> Bool {
         let habit = Habit(context: context)
         habit.creationDate = habitCreationDate
         habit.name = habitTitle
@@ -33,6 +34,11 @@ class TodayViewModel: ObservableObject {
         habitTitle = ""
         habitColor = "Blue"
         habitAllowsNotifications = false
+    }
+
+    // MARK: Check that only one habit was fetched
+    func habitFound(in habits: FetchedResults<Habit>) -> Bool {
+        return !habits.isEmpty
     }
 
     init(tracker: Tracker = Tracker.shared) {

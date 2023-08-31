@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HabitView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    let habit: Habit
+    @ObservedObject var habit: Habit
 
     var body: some View {
         HStack(alignment: .top) {

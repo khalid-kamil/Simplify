@@ -10,7 +10,6 @@ class TodayViewModel: ObservableObject {
 
     // MARK: New Habit Properties
     @Published var openEditHabit: Bool = false
-    @Published var habitCreationDate: Date = Date()
     @Published var habitTitle: String = ""
     @Published var habitColor: String  = "Blue"
     @Published var habitAllowsNotifications: Bool = false
@@ -21,17 +20,17 @@ class TodayViewModel: ObservableObject {
     // MARK: Adding Habit to CoreData
     func addHabit(context: NSManagedObjectContext) -> Bool {
         // MARK: Updating existing data in CoreData
-        var habit: Habit!
+        var habit: Habit
         if let editHabit = editHabit {
             habit = editHabit
         } else {
             habit = Habit(context: context)
+            habit.creationDate = Date()
+            habit.isCompleted = false
         }
-        habit.creationDate = habitCreationDate
         habit.name = habitTitle
         habit.color = habitColor
         habit.allowsNotifications = habitAllowsNotifications
-        habit.isCompleted = false
 
         if let _ = try? context.save() {
             return true
@@ -52,7 +51,7 @@ class TodayViewModel: ObservableObject {
     }
 
     // MARK: If Habit to edit is available then set the existing data to it
-    func setupHabit() {
+    func setupEditHabit() {
         if let editHabit = editHabit {
             habitTitle = editHabit.name ?? ""
             habitColor = editHabit.color

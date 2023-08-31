@@ -12,8 +12,11 @@ struct AddHabitView: View {
                 habitTitle
                 habitColor
                 habitNotifications
+                if vm.editHabit != nil {
+                    deleteHabitButton
+                }
             }
-            .navigationTitle("Add Habit")
+            .navigationTitle(vm.editHabit != nil ? "Edit Habit" : "Add Habit")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { saveButton }
@@ -38,9 +41,9 @@ struct AddHabitView_Previews: PreviewProvider {
 
 extension AddHabitView {
     var habitTitle: some View {
-            Section("Title") {
-                TextField("Habit name", text: $vm.habitTitle)
-            }
+        Section("Title") {
+            TextField("Habit name", text: $vm.habitTitle)
+        }
     }
 
     var habitColor: some View {
@@ -69,17 +72,33 @@ extension AddHabitView {
     }
 
     var habitNotifications: some View {
-            Section("Notifications") {
-                Toggle(isOn: $vm.habitAllowsNotifications) {
-                    Text("Enable Notifications")
-                }
+        Section("Notifications") {
+            Toggle(isOn: $vm.habitAllowsNotifications) {
+                Text("Enable Notifications")
             }
+        }
+    }
+
+    var deleteHabitButton: some View {
+        Button(role: .destructive) {
+            if let editHabit = vm.editHabit {
+                viewContext.delete(editHabit)
+                try? viewContext.save()
+                dismiss()
+                vm.resetHabitData()
+            }
+        } label: {
+            HStack {
+                Image(systemName: "trash")
+                Text("Delete Habit")
+                    .fontWeight(.medium)
+            }
+        }
     }
 
     var saveButton: some View {
         // MARK: Save Habit Button
         Button("Save") {
-            vm.habitCreationDate = Date()
             // MARK: If successfully saved to CoreData, dismiss view
             if vm.addHabit(context: viewContext) {
                 dismiss()

@@ -33,7 +33,10 @@ struct TodayView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .sheet(isPresented: $vm.openEditHabit) {
-            vm.resetHabitData()
+            if vm.editHabit == nil {
+                vm.resetHabitData()
+            }
+            vm.editHabit = nil
         } content: {
             AddHabitView()
                 .environmentObject(vm)
@@ -76,21 +79,24 @@ extension TodayView {
                 .fontWeight(.semibold)
             Spacer()
             Button {
-
+                vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
             } label: {
                 Text(vm.today.formatted(date: .abbreviated, time: .omitted))
                     .font(.headline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(vm.habitFound(in: habits) ? habits.first!.color : vm.habitColor))
+                    .foregroundColor(vm.habitFound(in: habits) ? Color(habits.first!.color) : Color(vm.habitColor))
             }
-            Button {
-                vm.editHabit = habits.first
-                vm.openEditHabit = true
-                vm.setupHabit()
-            } label: {
-                Text("Edit")
+            if vm.habitFound(in: habits) {
+                Button {
+                    vm.editHabit = habits.first
+                    vm.openEditHabit = true     
+                    vm.setupEditHabit()
+                } label: {
+                    Text("Edit")
+                }
+                .padding(.leading)
+
             }
-            .padding(.leading)
         }
     }
 

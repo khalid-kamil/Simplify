@@ -15,9 +15,18 @@ class TodayViewModel: ObservableObject {
     @Published var habitColor: String  = "Blue"
     @Published var habitAllowsNotifications: Bool = false
 
+    // MARK: Editing Existing Habit Data
+    @Published var editHabit: Habit?
+
     // MARK: Adding Habit to CoreData
     func addHabit(context: NSManagedObjectContext) -> Bool {
-        let habit = Habit(context: context)
+        // MARK: Updating existing data in CoreData
+        var habit: Habit!
+        if let editHabit = editHabit {
+            habit = editHabit
+        } else {
+            habit = Habit(context: context)
+        }
         habit.creationDate = habitCreationDate
         habit.name = habitTitle
         habit.color = habitColor
@@ -40,6 +49,15 @@ class TodayViewModel: ObservableObject {
     // MARK: Check that only one habit was fetched
     func habitFound(in habits: FetchedResults<Habit>) -> Bool {
         return !habits.isEmpty
+    }
+
+    // MARK: If Habit to edit is available then set the existing data to it
+    func setupHabit() {
+        if let editHabit = editHabit {
+            habitTitle = editHabit.name ?? ""
+            habitColor = editHabit.color
+            habitAllowsNotifications = editHabit.allowsNotifications
+        }
     }
 
     init(tracker: Tracker = Tracker.shared) {

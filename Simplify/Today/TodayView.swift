@@ -83,6 +83,14 @@ extension TodayView {
                     .fontWeight(.medium)
                     .foregroundColor(Color(vm.habitFound(in: habits) ? habits.first!.color : vm.habitColor))
             }
+            Button {
+                vm.editHabit = habits.first
+                vm.openEditHabit = true
+                vm.setupHabit()
+            } label: {
+                Text("Edit")
+            }
+            .padding(.leading)
         }
     }
 

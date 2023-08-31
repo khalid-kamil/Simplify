@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HabitView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     let habit: Habit
 
     var body: some View {
@@ -55,8 +56,9 @@ extension HabitView {
 
     var markHabitAsCompletedButton: some View {
         Button {
-            // MARK: Mark Habit as completed
-            
+            // MARK: Updating CoreData - Mark Habit as completed
+            habit.isCompleted.toggle()
+            try? viewContext.save()
         } label: {
             HStack(spacing: 4) {
                 Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")

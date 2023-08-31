@@ -22,6 +22,7 @@ class TodayViewModel: ObservableObject {
         habit.name = habitTitle
         habit.color = habitColor
         habit.allowsNotifications = habitAllowsNotifications
+        habit.isCompleted = false
 
         if let _ = try? context.save() {
             return true

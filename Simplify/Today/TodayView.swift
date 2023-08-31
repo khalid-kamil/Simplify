@@ -81,7 +81,7 @@ extension TodayView {
                 Text(vm.today.formatted(date: .abbreviated, time: .omitted))
                     .font(.headline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(vm.habitColor))
+                    .foregroundColor(Color(vm.habitFound(in: habits) ? habits.first!.color : vm.habitColor))
             }
         }
     }

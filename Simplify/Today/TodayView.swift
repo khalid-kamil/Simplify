@@ -9,14 +9,19 @@ struct TodayView: View {
 
     // MARK: Fetching Habit
     @FetchRequest var habits: FetchedResults<Habit>
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \LogItem.date, ascending: false)],
+        animation: .default
+    ) private var logItems: FetchedResults<LogItem>
+
     init() {
-        let request: NSFetchRequest<Habit> = Habit.fetchRequest()
-        request.predicate = nil
-        request.sortDescriptors = [
+        let habitRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+        habitRequest.predicate = nil
+        habitRequest.sortDescriptors = [
             NSSortDescriptor(keyPath: \Habit.creationDate, ascending: false)
         ]
-        request.fetchLimit = 1
-        _habits = FetchRequest(fetchRequest: request)
+        habitRequest.fetchLimit = 1
+        _habits = FetchRequest(fetchRequest: habitRequest)
     }
 
     var body: some View {
@@ -40,6 +45,18 @@ struct TodayView: View {
         } content: {
             AddHabitView()
                 .environmentObject(vm)
+        }
+        .onAppear {
+            let calendar = Calendar.current
+            let startDate = calendar.startOfDay(for: vm.today)
+            let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
+            logItems.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", argumentArray: [startDate, endDate])
+            print("Log Items: \(logItems.count)")
+            if logItems.isEmpty {
+                let logItem = LogItem(context: viewContext)
+                logItem.date = vm.today
+                print("Log item created")
+            }
         }
     }
 }
@@ -80,6 +97,8 @@ extension TodayView {
             Spacer()
             Button {
                 vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
+                let logItem = LogItem(context: viewContext)
+                logItem.date = vm.today
             } label: {
                 Text(vm.today.formatted(date: .abbreviated, time: .omitted))
                     .font(.headline)
@@ -89,7 +108,7 @@ extension TodayView {
             if vm.habitFound(in: habits) {
                 Button {
                     vm.editHabit = habits.first
-                    vm.openEditHabit = true     
+                    vm.openEditHabit = true
                     vm.setupEditHabit()
                 } label: {
                     Text("Edit")
@@ -105,6 +124,7 @@ extension TodayView {
         ZStack {
             if vm.habitFound(in: habits) {
                 HabitView(habit: habits.first!)
+                    .environmentObject(vm)
             } else {
                 createHabit
             }

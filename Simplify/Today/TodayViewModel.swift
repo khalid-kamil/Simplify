@@ -7,6 +7,9 @@ class TodayViewModel: ObservableObject {
     @Published var tracker: Tracker
     @Published var today: Date
     @Published var habit: Habit?
+    // MARK: View Model Properties
+    let habitTarget: Int = 28
+    let habitMilestones: [Int] = [1, 2, 3, 5, 7, 10, 14, 21, 28]
 
     // MARK: New Habit Properties
     @Published var openEditHabit: Bool = false
@@ -27,6 +30,8 @@ class TodayViewModel: ObservableObject {
             habit = Habit(context: context)
             habit.creationDate = Date()
             habit.isCompleted = false
+            habit.currentStreak = 0
+            habit.currentMilestoneIndex = 0
         }
         habit.name = habitTitle
         habit.color = habitColor
@@ -57,6 +62,14 @@ class TodayViewModel: ObservableObject {
             habitColor = editHabit.color
             habitAllowsNotifications = editHabit.allowsNotifications
         }
+    }
+
+    // MARK: Mark Habit as completed
+    func markHabitAsCompleted(_ habit: Habit, in context: NSManagedObjectContext) {
+        habit.isCompleted.toggle()
+        habit.currentStreak += 1
+
+        try? context.save()
     }
 
     init(tracker: Tracker = Tracker.shared) {
@@ -114,13 +127,7 @@ class TodayViewModel: ObservableObject {
         habit = trackerHabit
     }
 
-    func markHabitAsCompleted() {
-        guard let _ = tracker.habit else { return }
-        tracker.currentStreak += 1
-        tracker.habit?.currentStreak += 1
-        tracker.habit?.isCompleted = true
-        habit = tracker.habit
-    }
+
 
     func nextDay() {
         guard let _ = tracker.habit else { return }

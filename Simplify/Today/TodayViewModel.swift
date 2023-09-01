@@ -71,7 +71,7 @@ class TodayViewModel: ObservableObject {
 
     // MARK: Mark Habit as completed
     func markHabitAsCompleted(_ habit: Habit, in context: NSManagedObjectContext) {
-        habit.isCompleted = true
+//        habit.isCompleted = true
         editLogItem?.toHabit = habit
         if habit.currentStreak == habitMilestones[Int(habit.currentMilestoneIndex)] && habit.currentMilestoneIndex + 1 < habitMilestones.count {
             habit.currentMilestoneIndex += 1

@@ -29,8 +29,9 @@ struct CircularProgressView: View {
         .trim(from: 0, to: progress)
         .stroke(color, style: StrokeStyle(lineWidth: 24, lineCap: .round))
         .rotationEffect(.degrees(-90))
-//      Text(progress == 1 ? "🎉" : "\(value)/\(target)")
-      Text("\(value)/\(target)")
+        VStack {
+          Text("\(value)/\(target)")
+        }
     }
     .animation(.easeInOut, value: progress)
   }

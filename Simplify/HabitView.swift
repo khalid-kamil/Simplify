@@ -15,10 +15,18 @@ struct HabitView: View {
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
-                notificationBell
+                if habit.currentStreak == vm.habitTarget {
+                    Text("🎉 Habit Complete!")
+                } else {
+                    notificationBell
+                }
                 habitName
                 Spacer()
-                markHabitAsCompletedButton
+                if habit.currentStreak == vm.habitTarget {
+                    createNewHabitButton
+                } else {
+                    markHabitAsCompletedButton
+                }
             }
             Spacer()
             circularProgressView
@@ -67,7 +75,22 @@ extension HabitView {
             .fontWeight(.semibold)
         }
         .buttonStyle(.bordered)
-        .tint(Color(habit.color))
+        .tint(habit.isCompleted ? .gray : Color(habit.color))
+//        .disabled(habit.isCompleted)
+    }
+
+    var createNewHabitButton: some View {
+        Button {
+            vm.openEditHabit.toggle()
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "plus.circle")
+                Text("Build a new habit".uppercased())
+            }
+            .fontWeight(.semibold)
+        }
+        .buttonStyle(.bordered)
+        .tint(habit.isCompleted ? .gray : Color(habit.color))
 //        .disabled(habit.isCompleted)
     }
 

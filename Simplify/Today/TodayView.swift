@@ -18,7 +18,7 @@ struct TodayView: View {
 
     init() {
         let habitRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
-        habitRequest.predicate = nil
+        habitRequest.predicate = NSPredicate(format: "currentStreak <= %i", 28)
         habitRequest.sortDescriptors = [
             NSSortDescriptor(keyPath: \Habit.creationDate, ascending: false)
         ]

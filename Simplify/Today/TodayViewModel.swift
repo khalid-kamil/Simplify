@@ -20,6 +20,9 @@ class TodayViewModel: ObservableObject {
     // MARK: Editing Existing Habit Data
     @Published var editHabit: Habit?
 
+    // MARK: Editing Existing Login Item
+    @Published var editLogItem: LogItem?
+
     // MARK: Adding Habit to CoreData
     func addHabit(context: NSManagedObjectContext) -> Bool {
         // MARK: Updating existing data in CoreData
@@ -36,6 +39,9 @@ class TodayViewModel: ObservableObject {
         habit.name = habitTitle
         habit.color = habitColor
         habit.allowsNotifications = habitAllowsNotifications
+        if let logItem = editLogItem {
+            habit.addToFromLogItem(logItem)
+        }
 
         if let _ = try? context.save() {
             return true
@@ -68,6 +74,7 @@ class TodayViewModel: ObservableObject {
     func markHabitAsCompleted(_ habit: Habit, in context: NSManagedObjectContext) {
         habit.isCompleted.toggle()
         habit.currentStreak += 1
+        editLogItem?.toHabit = habit
 
         try? context.save()
     }
@@ -137,4 +144,32 @@ class TodayViewModel: ObservableObject {
 //        today = tracker.today
     }
 
+}
+
+extension Calendar {
+    func numberOfDaysToGenerate(from date: Date) -> Int {
+        let startDate = startOfDay(for: date)
+        let futureDate = Calendar.current.date(byAdding: .day, value: 10, to: startDate)!
+        let endDate = startOfDay(for: futureDate)
+        let numberOfDays = dateComponents([.day], from: startDate, to: endDate)
+        return numberOfDays.day!
+    }
+}
+
+extension Date {
+    var startDateOfMonth: Date? {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) else {
+            print("Unable to get start date from date")
+            return nil
+        }
+        return date
+    }
+
+    var endDateOfMonth: Date? {
+        guard let date = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startDateOfMonth!) else {
+            print("Unable to get end date from date")
+            return nil
+        }
+        return date
+    }
 }

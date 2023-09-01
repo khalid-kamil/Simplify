@@ -2,34 +2,6 @@
 import SwiftUI
 import CoreData
 
-extension Calendar {
-    func numberOfDaysToGenerate(from date: Date) -> Int {
-        let startDate = startOfDay(for: date)
-        let futureDate = Calendar.current.date(byAdding: .day, value: 10, to: startDate)!
-        let endDate = startOfDay(for: futureDate)
-        let numberOfDays = dateComponents([.day], from: startDate, to: endDate)
-        return numberOfDays.day!
-    }
-}
-
-extension Date {
-    var startDateOfMonth: Date? {
-        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) else {
-            print("Unable to get start date from date")
-            return nil
-        }
-        return date
-    }
-
-    var endDateOfMonth: Date? {
-        guard let date = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startDateOfMonth!) else {
-            print("Unable to get end date from date")
-            return nil
-        }
-        return date
-    }
-}
-
 struct TodayView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var userSettings: UserSettings
@@ -88,6 +60,7 @@ struct TodayView: View {
                 }
                 try? viewContext.save()
             }
+            vm.editLogItem = logItems.first
         }
     }
 }
@@ -128,9 +101,15 @@ extension TodayView {
             Spacer()
             Button {
                 vm.today = Calendar.current.date(byAdding: .day, value: -1, to: vm.today)!
+                let startDate = calendar.startOfDay(for: vm.today)
+                let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
+                logItems.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", argumentArray: [startDate, endDate])
+                vm.editLogItem = logItems.first
             } label: {
                 Image(systemName: "chevron.left")
             }
+            .disabled(vm.today < Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!))
+            .opacity(vm.today < Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!) ? 0.3 : 1)
             Text(vm.today.formatted(date: .abbreviated, time: .omitted))
                 .font(.headline)
                 .fontWeight(.medium)
@@ -151,6 +130,7 @@ extension TodayView {
                     }
                     try? viewContext.save()
                 }
+                vm.editLogItem = logItems.first
             } label: {
                 Image(systemName: "chevron.right")
             }

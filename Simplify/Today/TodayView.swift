@@ -2,10 +2,40 @@
 import SwiftUI
 import CoreData
 
+extension Calendar {
+    func numberOfDaysToGenerate(from date: Date) -> Int {
+        let startDate = startOfDay(for: date)
+        let futureDate = Calendar.current.date(byAdding: .day, value: 10, to: startDate)!
+        let endDate = startOfDay(for: futureDate)
+        let numberOfDays = dateComponents([.day], from: startDate, to: endDate)
+        return numberOfDays.day!
+    }
+}
+
+extension Date {
+    var startDateOfMonth: Date? {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) else {
+            print("Unable to get start date from date")
+            return nil
+        }
+        return date
+    }
+
+    var endDateOfMonth: Date? {
+        guard let date = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startDateOfMonth!) else {
+            print("Unable to get end date from date")
+            return nil
+        }
+        return date
+    }
+}
+
 struct TodayView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var userSettings: UserSettings
     @StateObject var vm = TodayViewModel()
+
+    let calendar = Calendar.current
 
     // MARK: Fetching Habit
     @FetchRequest var habits: FetchedResults<Habit>
@@ -47,15 +77,16 @@ struct TodayView: View {
                 .environmentObject(vm)
         }
         .onAppear {
-            let calendar = Calendar.current
             let startDate = calendar.startOfDay(for: vm.today)
             let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
             logItems.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", argumentArray: [startDate, endDate])
-            print("Log Items: \(logItems.count)")
             if logItems.isEmpty {
-                let logItem = LogItem(context: viewContext)
-                logItem.date = vm.today
-                print("Log item created")
+                let logDays = calendar.numberOfDaysToGenerate(from: startDate)
+                for day in (0...logDays) {
+                    let logItem = LogItem(context: viewContext)
+                    logItem.date = calendar.date(byAdding: .day, value: day, to: vm.today)
+                }
+                try? viewContext.save()
             }
         }
     }
@@ -90,20 +121,38 @@ extension TodayView {
     }
 
     var habitSectionHeader: some View {
-        HStack(alignment: .bottom) {
+        HStack(alignment: .center) {
             Text("Habit")
                 .font(.title3)
                 .fontWeight(.semibold)
             Spacer()
             Button {
-                vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
-                let logItem = LogItem(context: viewContext)
-                logItem.date = vm.today
+                vm.today = Calendar.current.date(byAdding: .day, value: -1, to: vm.today)!
             } label: {
-                Text(vm.today.formatted(date: .abbreviated, time: .omitted))
-                    .font(.headline)
-                    .fontWeight(.medium)
-                    .foregroundColor(vm.habitFound(in: habits) ? Color(habits.first!.color) : Color(vm.habitColor))
+                Image(systemName: "chevron.left")
+            }
+            Text(vm.today.formatted(date: .abbreviated, time: .omitted))
+                .font(.headline)
+                .fontWeight(.medium)
+                .foregroundColor(vm.habitFound(in: habits) ? Color(habits.first!.color) : Color(vm.habitColor))
+                .onTapGesture {
+                    vm.today = Date()
+                }
+            Button {
+                vm.today = Calendar.current.date(byAdding: .day, value: 1, to: vm.today)!
+                let startDate = calendar.startOfDay(for: vm.today)
+                let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
+                logItems.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", argumentArray: [startDate, endDate])
+                if logItems.isEmpty {
+                    let logDays = calendar.numberOfDaysToGenerate(from: startDate)
+                    for day in (0...logDays) {
+                        let logItem = LogItem(context: viewContext)
+                        logItem.date = calendar.date(byAdding: .day, value: day, to: vm.today)
+                    }
+                    try? viewContext.save()
+                }
+            } label: {
+                Image(systemName: "chevron.right")
             }
             if vm.habitFound(in: habits) {
                 Button {
@@ -114,9 +163,11 @@ extension TodayView {
                     Text("Edit")
                 }
                 .padding(.leading)
-
             }
         }
+        .font(.headline)
+        .fontWeight(.medium)
+        .foregroundColor(vm.habitFound(in: habits) ? Color(habits.first!.color) : Color(vm.habitColor))
     }
 
     var habitSectionBody: some View {

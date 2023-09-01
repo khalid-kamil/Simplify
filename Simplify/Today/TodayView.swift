@@ -49,6 +49,7 @@ struct TodayView: View {
                 .environmentObject(vm)
         }
         .onAppear {
+            vm.today = Date()
             let startDate = calendar.startOfDay(for: vm.today)
             let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
             logItems.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", argumentArray: [startDate, endDate])
@@ -76,9 +77,10 @@ struct TodayView_Previews: PreviewProvider {
 extension TodayView {
     var welcomeBack: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Welcome back")
+            Text(vm.today.formatted(date: .long, time: .omitted))
                 .font(.callout)
                 .fontWeight(.semibold)
+                .foregroundColor(.gray)
             Text("Here are today's updates")
                 .font(.title2.bold())
         }

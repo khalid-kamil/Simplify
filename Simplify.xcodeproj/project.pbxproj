@@ -21,7 +21,6 @@
 		E95C1CC22A7DAAC200612164 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */; };
 		E973EFC52A9B86EE00FD3C39 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E973EFC32A9B817300FD3C39 /* AddHabitView.swift */; };
 		E97816352A823BE000E35A54 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97816342A823BE000E35A54 /* UserSettings.swift */; };
-		E9D23B4B2A9E7700008A468A /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D23B4A2A9E7700008A468A /* Tracker.swift */; };
 		E9D23B5A2A9EBC9E008A468A /* LogItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D23B562A9EBC9E008A468A /* LogItem+CoreDataClass.swift */; };
 		E9D23B5B2A9EBC9E008A468A /* LogItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D23B572A9EBC9E008A468A /* LogItem+CoreDataProperties.swift */; };
 		E9D23B5C2A9EBC9E008A468A /* Habit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D23B582A9EBC9E008A468A /* Habit+CoreDataClass.swift */; };
@@ -44,7 +43,6 @@
 		E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		E973EFC32A9B817300FD3C39 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		E97816342A823BE000E35A54 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-		E9D23B4A2A9E7700008A468A /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		E9D23B562A9EBC9E008A468A /* LogItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LogItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E9D23B572A9EBC9E008A468A /* LogItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LogItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E9D23B582A9EBC9E008A468A /* Habit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 				E90ED65A2A98B10000B69E53 /* Today */,
 				E90ED65B2A98B10700B69E53 /* Summary */,
 				E90ED65C2A98B11200B69E53 /* Settings */,
-				E9D23B4A2A9E7700008A468A /* Tracker.swift */,
 				E95C1CBF2A7D9C3200612164 /* HabitView.swift */,
 				E973EFC32A9B817300FD3C39 /* AddHabitView.swift */,
 				E95C1CC12A7DAAC200612164 /* CircularProgressView.swift */,
@@ -206,7 +203,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9D23B4B2A9E7700008A468A /* Tracker.swift in Sources */,
 				E90ED6602A99318300B69E53 /* SummaryView.swift in Sources */,
 				E95C1CB22A7D85DF00612164 /* Persistence.swift in Sources */,
 				E973EFC52A9B86EE00FD3C39 /* AddHabitView.swift in Sources */,

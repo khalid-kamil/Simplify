@@ -68,11 +68,11 @@ extension HabitView {
         }
         .buttonStyle(.bordered)
         .tint(Color(habit.color))
-        .disabled(habit.isCompleted)
+//        .disabled(habit.isCompleted)
     }
 
     var circularProgressView: some View {
-        CircularProgressView(value: Int(habit.currentStreak), target: Tracker.shared.milestones[Int(habit.currentMilestoneIndex)], color: Color(habit.color))
+        CircularProgressView(value: Int(habit.currentStreak), target: vm.habitMilestones[Int(habit.currentMilestoneIndex)], color: Color(habit.color))
             .padding()
     }
 }

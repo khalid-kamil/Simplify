@@ -2,7 +2,6 @@
 import SwiftUI
 
 struct SummaryView: View {
-    @StateObject var tracker = Tracker.shared
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(

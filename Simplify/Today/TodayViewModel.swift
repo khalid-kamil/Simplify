@@ -19,8 +19,11 @@ class TodayViewModel: ObservableObject {
     // MARK: Editing Existing Habit Data
     @Published var editHabit: Habit?
 
-    // MARK: Editing Existing Login Item
-    @Published var editLogItem: LogItem?
+    // MARK: Current Login Item
+    @Published var currentLogItem: LogItem?
+    var logItemPredicate: NSPredicate {
+        NSPredicate(format: "date == %@", today as CVarArg)
+    }
 
     // MARK: Adding Habit to CoreData
     func addHabit(context: NSManagedObjectContext) -> Bool {
@@ -38,7 +41,7 @@ class TodayViewModel: ObservableObject {
         habit.name = habitTitle
         habit.color = habitColor
         habit.allowsNotifications = habitAllowsNotifications
-        if let logItem = editLogItem {
+        if let logItem = currentLogItem {
             habit.addToFromLogItem(logItem)
         }
 
@@ -46,6 +49,32 @@ class TodayViewModel: ObservableObject {
             return true
         }
         return false
+    }
+
+    // MARK: Load today's LogItem
+    func loadLogItem(from items: FetchedResults<LogItem>, in context: NSManagedObjectContext) {
+        print("Today: \(today.formatted(date: .complete, time: .complete))")
+        let calendar = Calendar.current
+        if items.isEmpty {
+            let startDate = today
+            let logDays = calendar.numberOfDaysToGenerate(from: startDate)
+            for day in (0...logDays) {
+                let logItem = LogItem(context: context)
+                logItem.date = calendar.date(byAdding: .day, value: day, to: startDate)
+                if day == 0 {
+                    currentLogItem = logItem
+                }
+            }
+            try? context.save()
+        } else {
+            currentLogItem = items.first
+        }
+        print(currentLogItem?.date?.formatted(date: .complete, time: .complete) ?? "LogItem not found")
+    }
+
+    // MARK: Adding LogItems to CoreData
+    func createLogItems() {
+
     }
 
     // MARK: Resetting View Model Habit Data
@@ -72,7 +101,7 @@ class TodayViewModel: ObservableObject {
     // MARK: Mark Habit as completed
     func markHabitAsCompleted(_ habit: Habit, in context: NSManagedObjectContext) {
 //        habit.isCompleted = true
-        editLogItem?.toHabit = habit
+        currentLogItem?.toHabit = habit
         if habit.currentStreak == habitMilestones[Int(habit.currentMilestoneIndex)] && habit.currentMilestoneIndex + 1 < habitMilestones.count {
             habit.currentMilestoneIndex += 1
         }
